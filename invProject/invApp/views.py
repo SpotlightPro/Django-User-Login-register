@@ -18,8 +18,8 @@ def product_create_view(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
-            form.seve()
-            return redidect('product_list')
+            form.save()
+            return redirect('product_list')
         return render('invApp/product_form.html', {'form': form})
 
 
@@ -32,13 +32,14 @@ def product_list_view(request):
 # Update view
 def product_update_view(request, product_id):
     product = Product.objects.get(product_id=product_id)
-    form = ProductForm(instanse=product)
+    form = ProductForm(instance=product)
     if request == 'POST':
         form = ProductForm(request.POST, instance=product)
         if form.is_valid():
             form.save()
             return redirect('product_list')
         return redirect('invApp/product_form.html', {'form': form})
+
 
 # Delete view
 def product_delete_view(request, product_id):
@@ -47,5 +48,3 @@ def product_delete_view(request, product_id):
         product.delete()
         return redirect('product_list')
     return redirect('invApp/product_confirm_delete.html', {'product': product})
-
-
